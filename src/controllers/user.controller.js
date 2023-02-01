@@ -1,6 +1,9 @@
 //has every info about connecting to db
 const db = require('../models/index.js')
 const {User} = require('../models');
+var bcrypt = require('bcryptjs');
+const user = require('../models/user.js');
+const validate = require('../services/validation.js');
 
 
 // Business Logic to get a user
@@ -14,20 +17,24 @@ exports.getUser = async(req,res) => {
     if(!user){
         return res.status(403).send("UserID not present")
     }
-
     res.send({
         message: 'This is working'})
 }
 
 // Business Logic to create a user
 exports.createUser = async (req, res) => {
+    var errors = validate.createValidation(req.body);
+    if(errors.length>0){
+        return res.status(400).json({errors: errors});
+    }
     const { first_name,last_name,username, password } = req.body;
+
     if (!username || !password) {
       return res.status(400).send({
         message: 'Please provide a username and a password to create a user!',
       });
     }
-  
+
     let usernameExists = await User.findOne({
       where: {
         username,
@@ -41,11 +48,14 @@ exports.createUser = async (req, res) => {
     }
   
     try {
-      let newUser = await User.create({
+       // console.log(usernameExists);
+        const salt = await bcrypt.genSaltSync(10);
+        const hash = await bcrypt.hash(password,salt);
+        let newUser = await User.create({
         first_name, 
         last_name,
         username,
-        password,
+        password: hash,
       });
       var userObj = {
         id: newUser.id,
@@ -55,7 +65,7 @@ exports.createUser = async (req, res) => {
         account_created: newUser.account_created,
         account_updated: newUser.account_updated,
       }
-      
+      //console.log(newUser);
       //res.json({ users : userObj, status: "SUCCESS" });
       return res.status(201).send(userObj);
     } catch (err) {
@@ -64,4 +74,51 @@ exports.createUser = async (req, res) => {
       });
     }
   };
+
+
+  //Business Logic to update user
+  exports.updateUser = async (req, res) => {
+    const errors = validate.validateUpdate(req.body);
+    if(errors.length>0){
+        return res.status(400).json({errors: errors});
+    }
+    const { first_name, last_name, username, password } = req.body;
+    const { id } = req.params;
+  
+    const user = await User.findOne({
+      where: {
+        id,
+      },
+    });
+  
+    if (!user) {
+      return res.status(403).send({
+        message: `Forbidden`,
+      });
+    }  
+    try {
+        if (first_name) {
+        user.first_name = first_name;
+        }
+        if (last_name) {
+        user.last_name = last_name;
+        }
+      if (password) {
+        const salt = await bcrypt.genSaltSync(10);
+        const hash = await bcrypt.hash(password,salt);
+        user.password = hash;
+      }
+      user.save();
+      return res.status(204).send({
+        message: `User ${id} has been updated!`,
+      });
+    } catch (err) {
+      return res.status(500).send({
+        message: `Error: ${err.message}`,
+      });
+    }
+  };
+
+
+
 

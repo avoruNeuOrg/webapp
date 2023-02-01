@@ -16,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     first_name: {
       type:DataTypes.STRING,
-      allowNull:false
+      allowNull:false,
     },
     last_name: {
       type:DataTypes.STRING,
-      allowNull:false
+      allowNull:false,
     },
     username: {
       type:DataTypes.STRING,
@@ -33,9 +33,6 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type:DataTypes.STRING,
       allowNull:false,
-      validate:{
-        len:[5,8]
-      }
     }
   },
   
