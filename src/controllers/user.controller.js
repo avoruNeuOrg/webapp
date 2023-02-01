@@ -19,8 +19,6 @@ exports.getUser = async(req,res) => {
         message: 'This is working'})
 }
 
-
-
 // Business Logic to create a user
 exports.createUser = async (req, res) => {
     const { first_name,last_name,username, password } = req.body;

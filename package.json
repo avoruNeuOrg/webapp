@@ -4,7 +4,7 @@
   "description": "test first commit message second test",
   "main": "index.js",
   "scripts": {
-    "test": "mocha 'test/test.js'",
+    "test": "mocha 'src/test/test.js'",
     "dev": "env NODE_ENV=development nodemon src/index.js"
   },
   "keywords": [],

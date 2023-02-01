@@ -1,4 +1,4 @@
-import 'dotenv/config';
+require('dotenv').config();
 
 const express = require("express");
 const morgan = require('morgan');
@@ -28,17 +28,14 @@ app.use('/v1/user',routes.userRoute)
 app.get("/1",(req,res)=>{
     res.status(200).send(`Opened the main page`)
 })
+app.get("/healthz",(req,res)=>{
+    res.status('200').send("connected to the base endpoint")
+})
 
 app.use((req,res)=>{
     res.status(404).send('404:Page not found')
 })
 
-async function main() {
-    await sequelize.sync({force: true});
-    await sequelize.authenticate();
-}
 
-main()
-app.listen(3000,(req,res)=>{
-    console.log(`Example App listening on ${process.env.PORT}`)
-})
+
+module.exports = app;
