@@ -8,17 +8,35 @@ const validate = require('../services/validation.js');
 
 // Business Logic to get a user
 exports.getUser = async(req,res) => {
+    const errors = validate.validateGet(req.body);
+    if(errors.length>0){
+      return res.status(400).json({errors: errors});
+    }
     const {id}= req.params;
     const user= await  User.findOne({
         where:{
             id
         }
     });
+
     if(!user){
-        return res.status(403).send("UserID not present")
+        return res.status(403).send("Forbidden : UserID not present")
     }
-    res.send({
-        message: 'This is working'})
+
+    if(user.id!=id){
+        return res.status(403).send("Forbidden")
+    }
+
+    var userObj = {
+      id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      username: user.username,
+      account_created: user.account_created,
+      account_updated: user.account_updated,
+    }
+
+    return res.status(200).send(userObj);
 }
 
 // Business Logic to create a user

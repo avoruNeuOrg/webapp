@@ -18,6 +18,28 @@ const genericErrObj = (err) =>{
 }
 
 
+const validateGet = (data)=>{
+    var errorMessages = []
+
+    var inputParams = ['first_name','last_name','password','username'];
+    var paramSet = new Set(inputParams);
+    if(Object.keys(data).length>0){
+        errorMessages.push('Payload seems to different please send correct payload');
+    }
+    else{
+        Object.keys(data).forEach(e=>{
+            if(!paramSet.has(e))
+            {
+                errorMessages.push('Payload seems to different please send correct payload');
+            }
+        })
+    }
+    return errorMessages;
+}
+
+
+
+
 const validateUpdate = (data)=>{
     var errorMessages = []
 
@@ -66,6 +88,7 @@ const createValidation = (data)=>{
 
 
 module.exports = {
+    validateGet:validateGet,
     validateUpdate:validateUpdate,
     errorObj:errorObj,
     createValidation:createValidation,
