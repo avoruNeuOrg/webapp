@@ -114,6 +114,13 @@ exports.createUser = async (req, res) => {
         message: `Forbidden`,
       });
     }  
+
+    if (user.username != username) {
+      return res.status(400).send({
+        message: `Forbidden`,
+      })
+    };
+
     try {
         if (first_name) {
         user.first_name = first_name;
