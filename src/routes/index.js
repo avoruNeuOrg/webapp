@@ -1,4 +1,12 @@
-
+const express = require('express');
+const route = express.Router();
 const userRoute =  require('./user');
+const productRoute =  require('./product');
 
-module.exports = {userRoute}
+route.use('/user', userRoute);
+route.use('/product', productRoute);
+
+module.exports ={
+    userRoute,
+    productRoute
+}

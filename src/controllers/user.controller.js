@@ -39,6 +39,7 @@ exports.getUser = async(req,res) => {
     return res.status(200).send(userObj);
 }
 
+
 // Business Logic to create a user
 exports.createUser = async (req, res) => {
     var errors = validate.createValidation(req.body);
