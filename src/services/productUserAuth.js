@@ -1,7 +1,7 @@
 const { User } = require('../models');
 const bcrypt = require("bcrypt");
 
-const ProductUserAuth = async (req, res, next) => {
+const productUserAuth = async (req, res, next) => {
     // check if authorization header is present
     if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
         return res.status(401).send({
@@ -43,4 +43,4 @@ const ProductUserAuth = async (req, res, next) => {
     next();
 };
 
-module.exports  = ProductUserAuth;
+module.exports  = productUserAuth;
