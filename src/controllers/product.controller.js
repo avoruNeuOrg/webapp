@@ -2,8 +2,8 @@
 const db = require('../models/index.js')
 const {Product} = require('../models');
 const {User} = require('../models');
-var bcrypt = require('bcryptjs');
-const user = require('../models/user.js');
+// var bcrypt = require('bcryptjs');
+// const user = require('../models/user.js');
 const validate = require('../services/validation.js');
 //const getUser = require('../services/getUserInfofromAuth.js');
 
