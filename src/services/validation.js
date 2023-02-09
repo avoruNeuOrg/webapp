@@ -106,9 +106,14 @@ const createProductValidation = (data)=>{
     return errorMessages;
 }
 
-
-
-
+const paramValidation = (data)=>{
+    var errorMessages = []
+    const reg = new RegExp('^[0-9]+$');
+    if(!reg.test(data)){
+        errorMessages.push('Id is not valid');
+    };
+    return errorMessages;
+}
 
 
 module.exports = {
@@ -117,5 +122,6 @@ module.exports = {
     errorObj:errorObj,
     createValidation:createValidation,
     genericErrObj :genericErrObj, 
-    createProductValidation:createProductValidation 
+    createProductValidation:createProductValidation,
+    paramValidation:paramValidation 
 }
