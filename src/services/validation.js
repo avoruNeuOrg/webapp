@@ -87,10 +87,35 @@ const createValidation = (data)=>{
 }
 
 
+
+const createProductValidation = (data)=>{
+    var errorMessages = []
+    var inputParams = ['name', 'description', 'sku', 'manufacturer','quantity'];
+    var paramSet = new Set(inputParams);
+    if(Object.keys(data).length!=inputParams.length){
+        errorMessages.push('Create Payload seems to different please send correct payload');
+    }
+    else{
+        Object.keys(data).forEach(e=>{
+            if(!paramSet.has(e))
+            {
+                errorMessages.push('Create Payload seems to different please send correct payload');
+            }
+        })
+    }    
+    return errorMessages;
+}
+
+
+
+
+
+
 module.exports = {
     validateGet:validateGet,
     validateUpdate:validateUpdate,
     errorObj:errorObj,
     createValidation:createValidation,
-    genericErrObj :genericErrObj
+    genericErrObj :genericErrObj, 
+    createProductValidation:createProductValidation 
 }

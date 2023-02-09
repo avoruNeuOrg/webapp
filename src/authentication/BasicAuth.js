@@ -20,7 +20,6 @@ const BasicAuth = async (req, res, next) => {
         })
     }
 
-
     //get user with emailid
     const user = await User.findOne({ where: { username: email } });
     // If the user is not found - then it is UnAuthorised access
@@ -50,7 +49,6 @@ const BasicAuth = async (req, res, next) => {
                 console.log("Forbidden :UserID did not match");
         }
     }
-
     // authentication successful
     next();
 }
