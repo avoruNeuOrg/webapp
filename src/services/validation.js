@@ -90,7 +90,7 @@ const createValidation = (data)=>{
 
 const createProductValidation = (data)=>{
     var errorMessages = []
-    var inputParams = [name, description, sku, manufacturer,quantity];
+    var inputParams = ['name', 'description', 'sku', 'manufacturer','quantity'];
     var paramSet = new Set(inputParams);
     if(Object.keys(data).length!=inputParams.length){
         errorMessages.push('Create Payload seems to different please send correct payload');

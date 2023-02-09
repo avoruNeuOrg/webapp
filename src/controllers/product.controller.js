@@ -13,26 +13,29 @@ exports.createProduct = async (req, res) => {
     var errors = validate.createProductValidation(req.body);
     
     if(errors.length>0){
-        return res.status(400).send({'message':'Bad Request'});
+        console.log(errors);
+        return res.status(400).send({'message':'Bad Request' , 'errors':errors});
     } 
     
-    try{
-        const user = validate.getUser(req.headers.authorization.split(' ')[1]);
-    }
-    catch(err){
-        return res.status(400).send({'message':'Bad Request'});
-    }
+    // // try{
+    // const owner = getUser.getUserInfoFromAuth(req.headers.authorization.split(' ')[1]);
+    // console.log(owner);
+    // // }
+    // // catch(err){
+    // //     console.log(err);
+    // //     return res.status(400).send({'message':'Bad Request' , 'errors':err});
+    // // }
 
-//     const { name, description, sku, manufacturer,quantity} = req.body;
-//     const base64Credentials = req.headers.authorization.split(' ')[1];
-//     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-//     const [email, password] = credentials.split(':');
+    const { name, description, sku, manufacturer,quantity} = req.body;
+    const base64Credentials = req.headers.authorization.split(' ')[1];
+    const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+    const [email, password] = credentials.split(':');
     
-//     const user= await  User.findOne({
-//       where:{
-//         username:email
-//       }
-//   });
+    const user= await  User.findOne({
+      where:{
+        username:email
+      }
+  });
 
   try {
         const newProduct = await Product.create({
@@ -58,6 +61,7 @@ exports.createProduct = async (req, res) => {
 
         return res.status(201).send(productObj);
     } catch (err) {
+        console.log(err);
         return res.status(400).send({
             message: `Bad Request`,            
         });
@@ -87,6 +91,6 @@ exports.getProduct = async (req, res) => {
 //Business Logic to update product
 exports.updateProduct = async (req, res) => {
   //TODO: validate the request body- write down multiple case scenarios
-  
+
    
 }

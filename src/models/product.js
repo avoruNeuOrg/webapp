@@ -16,20 +16,20 @@ module.exports = (sequelize, DataTypes) => {
   Product.init({
     name:{
         type: DataTypes.STRING, 
-        //allowNull: false,
+        allowNull: false,
     }, 
     description:{
         type:DataTypes.STRING,
-        //allowNull:false,
+        allowNull:false,
     }, 
     sku:{
         type:DataTypes.STRING,
         unique:true,
-        //allowNull:false,
+        allowNull:false,
     },
     manufacturer:{
         type:DataTypes.STRING,
-        //allowNull:false,
+        allowNull:false,
     },
     quantity:{
         type:DataTypes.INTEGER,
