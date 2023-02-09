@@ -43,4 +43,6 @@ const ProductUserAuth = async (req, res, next) => {
     next();
 }
 
-module.exports = ProductUserAuth;
+module.exports ={
+    ProductUserAuth: ProductUserAuth
+};
