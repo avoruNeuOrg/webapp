@@ -1,7 +1,7 @@
 const { User } = require('../models');
 const bcrypt = require("bcrypt");
 
-const BasicAuth = async (req, res, next) => {
+const ProductUserAuth = async (req, res, next) => {
     // check if authorization header is present
     if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
         return res.status(401).json({
@@ -38,20 +38,9 @@ const BasicAuth = async (req, res, next) => {
             message: 'Invalid Authentication Credentials, Please try again'
         })
     }
-
-    // verify if user is trying to access his own account
-    if (req.params.id){
-        //console.log(`the user id is ${user.id} , params id is ${req.params.id}`)
-        if (user.id != req.params.id) {
-            return res.status(403).json({
-                message: 'Forbidden Resource'
-            }),
-                console.log("Forbidden :UserID did not match");
-        }
-    }
     
     // authentication successful
     next();
 }
 
-module.exports = BasicAuth;
+module.exports = ProductUserAuth;
