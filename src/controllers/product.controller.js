@@ -96,11 +96,11 @@ exports.getProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     const { id } = req.params;
     console.log(id);
-    var errors = validate.paramValidation(req.params);
-    if(errors.length>0){
-        console.log(errors);
-        return res.status(400).send({'message':'Bad Request'});
-    }
+    // var errors = validate.paramValidation(req.params);
+    // if(errors.length>0){
+    //     console.log(errors);
+    //     return res.status(400).send({'message':'Bad Request'});
+    // }
     
 
     const product = await Product.findOne({
