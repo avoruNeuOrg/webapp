@@ -4,8 +4,8 @@ const bcrypt = require("bcrypt");
 const ProductUserAuth = async (req, res, next) => {
     // check if authorization header is present
     if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
-        return res.status(401).json({
-            message: 'Missing Authorization Header'
+        return res.status(401).send({
+            message: 'UnAuthorised'
         })
     }
     // verify auth credentials
@@ -15,8 +15,8 @@ const ProductUserAuth = async (req, res, next) => {
 
     // if email and password are null
     if (email == "" || password == "") {
-        return res.status(400).json({
-            message: 'Bad Request'
+        return res.status(401).json({
+            message: 'UnAuthorised'
         })
     }
 
@@ -35,14 +35,12 @@ const ProductUserAuth = async (req, res, next) => {
     if (!isPasswordMatch) {
         console.log("Password not match");
         return res.status(401).json({
-            message: 'Invalid Authentication Credentials, Please try again'
+            message: ' UnAuthorized'
         })
     }
     
     // authentication successful
     next();
-}
-
-module.exports ={
-    ProductUserAuth: ProductUserAuth
 };
+
+module.exports  = ProductUserAuth;

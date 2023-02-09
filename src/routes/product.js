@@ -2,7 +2,7 @@ const {Router} =  require('express');
 const productController = require('../controllers/product.controller.js')
 const router = Router()
 const BasicAuth = require('../authentication/BasicAuth');
-const ProductUserAuth = require('../services/ProductUserAuth');
+const ProductUserAuth = require('../services/ProductUserAuth.js');
 
 //Routes go here
 router.post("/", BasicAuth, productController.createProduct);

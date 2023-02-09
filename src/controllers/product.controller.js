@@ -14,7 +14,7 @@ exports.createProduct = async (req, res) => {
     
     if(errors.length>0){
         console.log(errors);
-        return res.status(400).send({'message':'Bad Request' , 'errors':errors});
+        return res.status(400).send({'message':'Bad Request'});
     } 
     
     // // try{
@@ -96,12 +96,12 @@ exports.getProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     const { id } = req.params;
     console.log(id);
+    var errors = validate.paramValidation(req.params);
+    if(errors.length>0){
+        console.log(errors);
+        return res.status(400).send({'message':'Bad Request'});
+    }
     
-    // if(typeof(id)!== 'integer'){
-    //     return res.status(400).send({
-    //         message: `Bad Request : Product ${id} not found!`,
-    //     });
-    // }
 
     const product = await Product.findOne({
         where: {
@@ -174,7 +174,7 @@ exports.patchProduct = async (req, res) => {
 
     if (!product) {
         return res.status(400).send({
-            message: ` Bad Request : Product ${product_id} not found!`,
+            message: ` Bad Request : Product ${id} not found!`,
         });
     }
 
@@ -219,7 +219,7 @@ exports.patchProduct = async (req, res) => {
         console.log(err);
         return res.status(400).send({
             message: `Bad Request`,
-        }).json(err);
+        }).json();
     }
 }
 
@@ -228,13 +228,14 @@ exports.patchProduct = async (req, res) => {
 //Business Logic to update product
 exports.updateProduct = async (req, res) => {
     const { id } = req.params;
+
     //TODO: validate the request body- write down multiple case scenarios
     const { name, description, sku, manufacturer,quantity} = req.body;
     var errors = validate.createProductValidation(req.body);
     
     if(errors.length>0){
         console.log(errors);
-        return res.status(400).send({'message':'Bad Request' , 'errors':errors});
+        return res.status(400).send({'message':'Bad Request'});
     } 
 
     const product = await Product.findOne({
@@ -263,19 +264,11 @@ exports.updateProduct = async (req, res) => {
     //Checking if the authenticated user is the owner of the product
     if(user.id !== product.owner_user_id){
         return res.status(403).send({
-            message: `Forbidden : You are not the owner of the product`,
+            message: `Forbidden`,
         });
     }
 
     console.log("product details :: ",product);
-    // try{
-    //     return res.status(200);
-    // }catch(err){
-    //     console.log(err);
-    //     return res.status(400).send({
-    //         message: `Bad Request`,
-    //     });
-    // }
 
     try{
         const updatedProduct = await Product.update({
@@ -298,27 +291,6 @@ exports.updateProduct = async (req, res) => {
             message: `Bad Request`,            
         });
     }
-    
-    // try{
-    //     const updatedProduct = await Product.update({
-    //         name,
-    //         description,
-    //         sku,
-    //         manufacturer,
-    //         quantity ,
-    //         date_last_updated: new Date(),
-    //     }, {
-    //         where: {
-    //             id,
-    //         },
-    //     });
-    //     return res.status(200);
-    // }catch(err){
-    //     console.log(err);
-    //     return res.status(400).send({
-    //         message: `Bad Request`,            
-    //     });
-    //}   
 }
 
 

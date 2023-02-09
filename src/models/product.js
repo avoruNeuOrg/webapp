@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     }, 
     sku:{
         type:DataTypes.STRING,
-        //unique:true,
+        unique:true,
         allowNull:false,
     },
     manufacturer:{
