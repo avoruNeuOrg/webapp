@@ -102,7 +102,12 @@ const createProductValidation = (data)=>{
                 errorMessages.push('Create Payload seems to different please send correct payload');
             }
         })
-    }    
+    }
+    Object.keys(data).forEach(e=>{
+        if(e=='quantity' && data[e]<0){
+            errorMessages.push('Quantity cannot be less than 0');
+        }
+    })    
     return errorMessages;
 }
 
