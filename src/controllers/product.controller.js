@@ -214,7 +214,7 @@ exports.patchProduct = async (req, res) => {
         }
         product.date_last_updated = new Date();
         await product.save();
-        return res.status(200).json();
+        return res.status(204).json();
     }catch(err){
         console.log(err);
         return res.status(400).send({
@@ -283,7 +283,7 @@ exports.updateProduct = async (req, res) => {
                 id,
             },
         });
-        return res.status(200).json();
+        return res.status(204).json();
 
     }catch(err){
         console.log(err);
