@@ -1,0 +1,44 @@
+name: CD
+
+on:
+  push:
+    branches: [ "main" ]
+  
+  workflow_dispatch:
+jobs:
+  ami_build:
+    name: ami_build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Package zip
+      run: cd ../ && zip -r webapp.zip webapp && cd - && cp ../webapp.zip .
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
+        aws-region: us-east-1
+    
+    - name: Set sequalize environment
+      run: export NODE_ENV=development
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.17
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+
+    - name: Setup `packer`
+      uses: hashicorp/setup-packer@main
+      id: setup
+      with:
+        version: "latest"
+    - name: Run `packer init`
+      id: init
+      run: "packer init aws-ami.pkr.hcl"
+    - name: Run `packer validate`
+      id: validate
+      run: "packer build aws-ami.pkr.hcl"
