@@ -24,7 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Package zip
-      run: cd ../ && zip -r webapp.zip webapp && cd - && cp ../webapp.zip
+      run: cd ../ && zip -r webapp.zip webapp && cd - && cp ../webapp.zip .
     - name: Sequilize setup
       run:  export NODE_ENV=development
     - name: Use Node.js ${{ matrix.node-version }}
