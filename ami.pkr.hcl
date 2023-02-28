@@ -70,6 +70,6 @@ build {
     ## THIS IS FOR SETUP & APPLICATION AS SERVICE
     script = "script.sh"
   }
-
 }
+
 
