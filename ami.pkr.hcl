@@ -71,5 +71,5 @@ build {
     script = "script.sh"
   }
 
-}
+
 
