@@ -79,6 +79,8 @@ sudo npm install pg@8.9.0
 sudo npm install sequelize@5.21.7
 sudo npm install supertest@6.3.3
 sudo npm install pm2 -g
+sudo npm install aws-sdk@2.1323.0
+sudo npm install multer@1.4.5-lts.1
 
 
 
