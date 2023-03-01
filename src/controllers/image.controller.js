@@ -95,7 +95,7 @@ exports.createImage = async (req, res) => {
         const newImage = await Image.create({
             product_id:productId,
             file_name:file_name,
-            s3_bucket_path:'s3://'+process.env.AWS_BUCKET_NAME+'/'+key,
+            s3_bucket_path:key,
         });
         return res.status(201).send({'message':'Image Created'});
     }
@@ -268,7 +268,10 @@ exports.deleteImage = async (req, res) => {
                 image_id:imageId
             }
         });
-        S3.deleteImage(image.s3_bucket_path);
+        s3.deleteObject({
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: image.s3_bucket_path
+        }).promise();
         return res.status(200).send({'message':'Image Deleted'});
     }catch(err){
         console.log(err);
