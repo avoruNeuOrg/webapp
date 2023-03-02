@@ -83,7 +83,7 @@ exports.createImage = async (req, res) => {
             //Body: req.file.buffer,
             Body: fileStream,
             ContentType: req.file.mimetype,
-            ACL: 'public-read'
+            //ACL: 'public-read'
         }).promise();
     }
     catch(err){
