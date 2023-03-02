@@ -66,6 +66,11 @@ build {
     destination = "/tmp/apps/webapp.zip"
   }
 
+  provisioner "file" {
+    source = "app.service"
+    destination = "/tmp/app.service"
+  }
+
   provisioner "shell" {
     ## THIS IS FOR SETUP & APPLICATION AS SERVICE
     script = "script.sh"

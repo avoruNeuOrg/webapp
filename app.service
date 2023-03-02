@@ -1,0 +1,14 @@
+[Unit]
+Description=index.js
+Documentation=https://example.com
+After=network.target
+
+[Service]
+EnvironmentFile=/home/ec2-user/webapp/.env
+Type=simple
+User=ec2-user
+ExecStart=/usr/bin/node /home/ec2-user/webapp/mainServer.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

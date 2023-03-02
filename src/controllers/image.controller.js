@@ -25,9 +25,9 @@ const fs = require('fs');
 
 //s3 client 
 s3= new AWS.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_REGION,
+    // accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    // secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    //region: process.env.AWS_REGION,
     Bucket: process.env.AWS_BUCKET_NAME
 });
 
@@ -53,9 +53,9 @@ exports.createImage = async (req, res) => {
     file_extension = req.file.mimetype;
     console.log(file_extension," ::: file_extension");
 
-    // if(file_extension != 'image/jpg' || file_extension != 'image/png' || file_extension != 'image/jpeg'){
-    //     return res.status(400).send({'message':'Bad Request - File Extension'});
-    // }
+    if(file_extension != 'image/jpg' && file_extension != 'image/png' && file_extension != 'image/jpeg'){
+        return res.status(400).send({'message':'Bad Request - File Extension'});
+    }
 
     const product = await Product.findOne({
         where:{
