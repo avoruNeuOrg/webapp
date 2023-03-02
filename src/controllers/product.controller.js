@@ -2,6 +2,7 @@
 const db = require('../models/index.js')
 const {Product} = require('../models');
 const {User} = require('../models');
+const {Image} = require('../models');
 // var bcrypt = require('bcryptjs');
 // const user = require('../models/user.js');
 const validate = require('../services/validation.js');
@@ -115,6 +116,13 @@ exports.deleteProduct = async (req, res) => {
         });
     }
 
+    const images = await Image.findAll({
+        where: {
+            product_id: id
+        },
+    });
+
+
     //If user not authenticated then return 401
 
     //If user not authorised to delete the product then return 403
@@ -142,6 +150,13 @@ exports.deleteProduct = async (req, res) => {
                 id
             },
         });
+        for(var i=0;i<images.length;i++){
+            await Image.destroy({
+                where: {
+                    id: images[i].id
+                },
+            });
+        }
         return res.status(204).send();
     }catch(err){
         console.log(err);

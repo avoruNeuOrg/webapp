@@ -34,6 +34,8 @@ module.exports = (sequelize, DataTypes) => {
     quantity:{
         type:DataTypes.INTEGER,
         allowNull:false,
+        min:0,
+        max:100,
     },
     owner_user_id:{
         type:DataTypes.INTEGER,
