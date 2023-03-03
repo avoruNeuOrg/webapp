@@ -1,5 +1,5 @@
 [Unit]
-Description=index.js
+Description=mainServer.js
 Documentation=https://example.com
 After=network.target
 
