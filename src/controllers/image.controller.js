@@ -68,6 +68,15 @@ exports.createImage = async (req, res) => {
         username:email
       }
   });
+
+    if(!product){
+        return res.status(404).send({'message':'Product Not Found'});
+    }
+
+    if(!user){
+        return res.status(404).send({'message':'User Not Found'});
+    }
+
     
     if(product.owner_user_id != user.id){
         return res.status(401).send({'message':'Unauthorized'});
@@ -133,6 +142,10 @@ exports.getAllImages = async (req, res) => {
     if(!product){
         return res.status(404).send({'message':'Not Found'});
     }
+
+    if(!user){
+        return res.status(404).send({'message':'User Not Found'});
+    }
         
     if(product.owner_user_id != user.id){
         return res.status(401).send({'message':'Unauthorized'});
@@ -187,6 +200,17 @@ exports.getImage = async (req, res) => {
         }
     });
 
+    if(!image){
+        return res.status(404).send({'message':'Not Found'});
+    }
+
+    if(!product){
+        return res.status(404).send({'message':'Not Found'});
+    }
+
+    if(!user){
+        return res.status(401).send({'message':'Unauthorized'});
+    }
     
     if(product.owner_user_id != user.id){
         return res.status(401).send({'message':'Unauthorized'});
