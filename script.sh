@@ -85,15 +85,15 @@ sudo npm install multer@1.4.5-lts.1
 
 
 echo "| **********************  STARTING THE APPLICATION AS A SERVICE ********************** |"
-# sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ec2-user --hp /home/ec2-user
-# pm2 start src/mainServer.js
-# #npm run dev 
-# pm2 save
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ec2-user --hp /home/ec2-user
+pm2 start src/mainServer.js
+#npm run dev 
+pm2 save
 
-# pm2 list
+pm2 list
 
 
-sudo cp /tmp/app.service /lib/systemd/system/app.service
-sudo rm -rf /tmp/app.service
-sudo systemctl daemon-reload
+# sudo cp /tmp/app.service /lib/systemd/system/app.service
+# sudo rm -rf /tmp/app.service
+# sudo systemctl daemon-reload
 
