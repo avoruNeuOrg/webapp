@@ -93,7 +93,7 @@ sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -
 # pm2 list
 
 
-# sudo cp /tmp/app.service /lib/systemd/system/app.service
-# sudo rm -rf /tmp/app.service
- sudo systemctl daemon-reload
+sudo cp /tmp/app.service /lib/systemd/system/app.service
+sudo rm -rf /tmp/app.service
+sudo systemctl daemon-reload
 
