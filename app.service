@@ -7,7 +7,7 @@ After=network.target
 EnvironmentFile=/home/ec2-user/webapp/.env
 Type=simple
 User=ec2-user
-ExecStart=/usr/bin/node /home/ec2-user/webapp/mainServer.js
+ExecStart=/usr/bin/node /home/ec2-user/webapp/src/mainServer.js
 Restart=on-failure
 
 [Install]
