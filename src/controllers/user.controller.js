@@ -4,11 +4,16 @@ const {User} = require('../models');
 var bcrypt = require('bcryptjs');
 const user = require('../models/user.js');
 const validate = require('../services/validation.js');
-
+const logger = require('../logger.js');
+const statsd = require('../config/statsd.js');
 
 // Business Logic to get a user
 exports.getUser = async(req,res) => {
     const errors = validate.validateGet(req.body);
+    
+    logger.info("getUser function called");
+    statsd.increment('getUser');
+
     if(errors.length>0){
       return res.status(400).json({errors: errors});
     }
@@ -43,6 +48,10 @@ exports.getUser = async(req,res) => {
 // Business Logic to create a user
 exports.createUser = async (req, res) => {
     var errors = validate.createValidation(req.body);
+    
+    logger.info("createUser function called");
+    statsd.increment('createUser');
+
     if(errors.length>0){
         return res.status(400).json({errors: errors});
     }
@@ -97,6 +106,10 @@ exports.createUser = async (req, res) => {
 
   //Business Logic to update user
   exports.updateUser = async (req, res) => {
+    
+    logger.info("updateUser function called");
+    statsd.increment('updateUser');
+
     const errors = validate.validateUpdate(req.body);
     if(errors.length>0){
         return res.status(400).json({errors: errors});
