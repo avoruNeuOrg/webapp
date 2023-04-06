@@ -83,6 +83,14 @@ sudo npm install aws-sdk@2.1323.0
 sudo npm install multer@1.4.5-lts.1
 
 
+echo "|********************** INSTALL CLOUD-WATCH AGENT **********************  |"
+sudo yum install amazon-cloudwatch-agent -y
+
+# wget https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
+# sudo rpm -U ./amazon-cloudwatch-agent.rpm
+
+#move the updated config file to the correct location
+sudo cp /tmp/cloudwatch-config.json  /opt/cloudwatch-config.json
 
 echo "| **********************  STARTING THE APPLICATION AS A SERVICE ********************** |"
 sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u ec2-user --hp /home/ec2-user
