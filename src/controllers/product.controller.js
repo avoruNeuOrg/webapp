@@ -7,11 +7,17 @@ const {Image} = require('../models');
 // const user = require('../models/user.js');
 const validate = require('../services/validation.js');
 //const getUser = require('../services/getUserInfofromAuth.js');
+const logger = require('../logger.js');
+const statsd = require('../config/statsd.js');
+
 
 
 //Business Logic to create a new Product 
 exports.createProduct = async (req, res) => {
     var errors = validate.createProductValidation(req.body);
+
+    logger.info("createProduct function called");
+    statsd.increment('createProduct');
     
     if(errors.length>0){
         console.log(errors);
@@ -74,6 +80,8 @@ exports.createProduct = async (req, res) => {
 exports.getProduct = async (req, res) => {
   //TODO : what is 401 and 403 status when it needs no authentication
     const { id } = req.params;
+    logger.info("getProduct function called");
+    statsd.increment('getProduct');
 
     const product = await Product.findOne({
         where: {
@@ -97,6 +105,10 @@ exports.getProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     const { id } = req.params;
     console.log(id);
+
+    logger.info("deleteProduct function called");
+    statsd.increment('deleteProduct');
+
     // var errors = validate.paramValidation(req.params);
     // if(errors.length>0){
     //     console.log(errors);
@@ -175,6 +187,10 @@ exports.patchProduct = async (req, res) => {
     const paramSet = new Set(['name', 'description', 'sku', 'manufacturer','quantity']);
     const bodySet = new Set(Object.keys(req.body));
     const diff = new Set([...bodySet].filter(x => !paramSet.has(x)));
+
+    logger.info("patchProduct function called");
+    statsd.increment('patchProduct');
+
     if (diff.size > 0) {
         return res.status(400).send({
             message: `Bad Request : Invalid parameters ${[...diff]}`,
@@ -243,6 +259,9 @@ exports.patchProduct = async (req, res) => {
 //Business Logic to update product
 exports.updateProduct = async (req, res) => {
     const { id } = req.params;
+
+    logger.info("updateProduct function called");
+    statsd.increment('updateProduct');
 
     //TODO: validate the request body- write down multiple case scenarios
     const { name, description, sku, manufacturer,quantity} = req.body;

@@ -7,6 +7,8 @@ const validate = require('../services/validation.js');
 const AWS = require('aws-sdk');
 const path= require('path');
 const fs = require('fs');
+const logger = require('../logger.js');
+const statsd = require('../config/statsd.js');
 
 
 //TODO: 
@@ -43,6 +45,8 @@ s3= new AWS.S3({
 exports.createImage = async (req, res) => {
     // console.log(req.body);
     // console.log(req.params,"params");
+    logger.info("createImage function called");
+    statsd.increment('createImage');
     const base64Credentials = req.headers.authorization.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [email, password] = credentials.split(':');
@@ -123,6 +127,8 @@ exports.createImage = async (req, res) => {
 //IF YES THEN GET THE LIST OF IMAGES ELSE RETURN 401
 exports.getAllImages = async (req, res) => {
     productId= req.params.id;
+    logger.info("getAllImages function called");
+    statsd.increment('getAllImages');
 
     const base64Credentials = req.headers.authorization.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
@@ -179,6 +185,9 @@ exports.getImage = async (req, res) => {
     productId= req.params.id;
     imageId= req.params.image_id;
 
+    logger.info("getImage function called");
+    statsd.increment('getImage');
+
     const base64Credentials = req.headers.authorization.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [email, password] = credentials.split(':');
@@ -223,6 +232,7 @@ exports.getImage = async (req, res) => {
 
     try{
         return res.status(200).send(image);
+
     }catch(err){
         console.log(err);
         return res.status(400).send({'message':'Bad Request'});
@@ -243,6 +253,9 @@ exports.getImage = async (req, res) => {
 exports.deleteImage = async (req, res) => {
     productId= req.params.id;
     imageId= req.params.image_id;
+
+    logger.info("deleteImage function called");
+    statsd.increment('deleteImage');
 
     const base64Credentials = req.headers.authorization.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
