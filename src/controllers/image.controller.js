@@ -7,7 +7,6 @@ const validate = require('../services/validation.js');
 const AWS = require('aws-sdk');
 const path= require('path');
 const fs = require('fs');
-const logger = require('../logger.js');
 
 
 //TODO: 
