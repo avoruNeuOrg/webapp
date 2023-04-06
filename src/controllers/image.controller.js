@@ -8,6 +8,7 @@ const AWS = require('aws-sdk');
 const path= require('path');
 const fs = require('fs');
 
+
 //TODO: 
 // HOW TO PASS THE AWS CREDENTIALS TO CREATE S3 CLIENT 
 // ALL THE CREDENTIALS AND BUCKET NAME ARE SENT TO TO THE 

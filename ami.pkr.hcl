@@ -71,10 +71,16 @@ build {
     destination = "/tmp/app.service"
   }
 
+    provisioner "file"{
+    source = "cloudwatch-config.json"
+    destination = "/tmp/cloudwatch-config.json"
+  }
+
   provisioner "shell" {
     ## THIS IS FOR SETUP & APPLICATION AS SERVICE
     script = "script.sh"
   }
+
 }
 
 

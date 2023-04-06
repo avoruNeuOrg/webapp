@@ -43,7 +43,8 @@ const fs =require('fs');
 const routes = require('./routes');
 // import routes from './routes';
 const {sequelize} = require('./models');
-
+const logger = require('./logger');
+const statsd = require('./config/statsd');
 
 
 // import express from 'express';
@@ -68,6 +69,8 @@ app.get("/1",(req,res)=>{
     res.status(200).send(`Opened the main page`)
 })
 app.get("/healthz",(req,res)=>{
+    statsd.increment('healthz');
+    logger.info("connected to the healthz endpoint")
     res.status('200').send("connected to the base endpoint")
 })
 
