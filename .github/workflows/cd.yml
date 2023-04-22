@@ -41,4 +41,25 @@ jobs:
       run: "packer init ami.pkr.hcl"
     - name: Run `packer validate`
       id: validate
-      run: "packer build ami.pkr.hcl"
+      run: |
+      "packer build ami.pkr.hcl"
+      AMI_ID=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
+      echo "AMI_ID=$AMI_ID" >> $GITHUB_ENV
+    - name: Update Launch Template
+      run: |
+        aws ec2 create-launch-template-version --no-cli-pager \
+        --launch-template-data '{"ImageId":"${{ env.AMI_ID }}"}' \
+        --source-version 1 --launch-template-name "EC2_launch_template" 
+      env:
+        AMI_ID: ${{ env.AMI_ID }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEMO }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEMO }}
+      
+    - name: autoscaling group instance refresh
+      run: |
+        aws autoscaling start-instance-refresh \
+        --auto-scaling-group-name="csye6225-asg-spring2023" \
+        --strategy=Rolling --no-cli-pager
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEMO }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEMO }}
