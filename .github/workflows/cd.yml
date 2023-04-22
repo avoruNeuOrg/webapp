@@ -42,9 +42,9 @@ jobs:
     - name: Run `packer validate`
       id: validate
       run: |
-      "packer build ami.pkr.hcl"
-      AMI_ID=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
-      echo "AMI_ID=$AMI_ID" >> $GITHUB_ENV
+        packer build ami.pkr.hcl
+        AMI_ID=$(jq -r '.builds[-1].artifact_id' manifest.json | cut -d ":" -f2)
+        echo "AMI_ID=$AMI_ID" >> $GITHUB_ENV
     - name: Update Launch Template
       run: |
         aws ec2 create-launch-template-version --no-cli-pager \
